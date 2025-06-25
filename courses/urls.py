@@ -4,7 +4,7 @@ from courses.views import index, courseList, details, getCoursesByCategory, getC
 urlpatterns = [
     path("", index, name="index"),
     path("list", courseList, name="course-list"),
-    path("<kurs_adi>", details, name="details"),
-    path("kategori/<int:category_id>", getCoursesByCategoryId, name="category_by_id"),
-    path("kategori/<str:category>", getCoursesByCategory, name="category_by_slug"),
+    path("<slug:course_slug>", details, name="course_details"),
+    path("kategori/<int:category_id>", getCoursesByCategoryId, name="courses_by_category_id"),
+    path("kategori/<slug:category_slug>", getCoursesByCategory, name="courses_by_category"),
 ]

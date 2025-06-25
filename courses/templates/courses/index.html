@@ -1,3 +1,12 @@
 {% extends 'layouts/base.html' %} {% block content %}
-  <h1>Kurslar</h1>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-3">
+        {% include 'courses/partials/_categories.html' %}
+      </div>
+      <div class="col-9">
+        {% include 'courses/partials/_courses.html' %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
