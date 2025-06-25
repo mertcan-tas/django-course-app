@@ -2,15 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 
+
 data = {
     "programlama": "programlama kategorisine ait kurslar",
     "yapay-zeka": "yz kategorisine ait kurslar",
     "mobil": "mobil programlama kategorisine ait kurslar",
 }
 
-def kurslar(request):
-    return HttpResponse("Kurslar")
-
+def index(request):
+    return render(request, "courses/index.html")
+    
 def courseList(request):
     return HttpResponse("Kurs Listesi")
 
