@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from django.urls import reverse
+from django.core.paginator import Paginator
 from courses.models import Course, Category
 
 def index(request):
-    courses = Course.objects.filter(is_active=1)
+    courses_list = Course.objects.filter(is_active=True)
+    paginator = Paginator(courses_list, 6)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "courses/index.html", {
-        "courses": courses
+        "page_obj": page_obj,
     })
 
 def details(request, slug):
@@ -14,9 +18,16 @@ def details(request, slug):
     return render(request, "courses/details.html", {
         "course": course
     })
-
+    
 def getCoursesByCategory(request, slug):
-    courses = get_object_or_404(Category, slug=slug).courses.all()
+    category = get_object_or_404(Category, slug=slug)
+    course_list = category.courses.filter(is_active=True)  
+    
+    paginator = Paginator(course_list, 6)  
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "courses/category.html", {
-        'courses': courses,
+        "page_obj": page_obj,
+        "category": category,
     })
