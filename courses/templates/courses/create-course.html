@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %} {% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        {% if success %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endif %}
+
+        {% if error %}
+          <div class="alert alert-warning" role="alert">{{ message }}</div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'create-course' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" class="form-control" aria-describedby="title" />
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" aria-describedby="description"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-success">Kaydet</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

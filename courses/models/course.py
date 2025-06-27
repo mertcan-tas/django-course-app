@@ -4,7 +4,7 @@ from autoslug import AutoSlugField
 class Course(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
-    image = models.ImageField(upload_to='courses/')
+    image = models.ImageField(upload_to='courses/', null=True, blank=True)
     slug = AutoSlugField(populate_from='title', unique=True, db_index=True)
     is_active = models.BooleanField(default=True, null=False)
     category = models.ForeignKey("courses.Category", on_delete=models.CASCADE, related_name='courses')

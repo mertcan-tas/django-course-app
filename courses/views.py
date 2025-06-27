@@ -38,3 +38,24 @@ def getCoursesByCategory(request, slug):
         "page_obj": page_obj,
         "category": category,
     })
+    
+    
+def create_course(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        category = Category.objects.first()
+        
+        if title == "" or description == "":
+            context = {"error": True, "message": "lütfen gerekli alanları doldurun!"}
+            return render(request, "courses/create-course.html", context)
+        else:
+            try:
+                course = Course(title=title, description=description, category_id=category.id)
+                course.save()
+                context = {"success": True, "message": "Kurs kaydedildi!"}
+                return render(request, "courses/create-course.html", context)
+            except Exception as e:
+                print(e)
+
+    return render(request, "courses/create-course.html",)
