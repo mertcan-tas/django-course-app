@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from courses.models import Course, Category
 from django.db.models import Q
+from courses.forms import CourseCreateForm
 
 def index(request):
     query = request.GET.get("search", "").strip()
@@ -10,7 +11,7 @@ def index(request):
         courses_list = Course.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), is_active=True,)
     else:
         courses_list = Course.objects.filter(is_active=True)
-
+    
     paginator = Paginator(courses_list, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -42,20 +43,12 @@ def getCoursesByCategory(request, slug):
     
 def create_course(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        category = Category.objects.first()
+        form = CourseCreateForm(request.POST)
         
-        if title == "" or description == "":
-            context = {"error": True, "message": "lütfen gerekli alanları doldurun!"}
-            return render(request, "courses/create-course.html", context)
-        else:
-            try:
-                course = Course(title=title, description=description, category_id=category.id)
-                course.save()
-                context = {"success": True, "message": "Kurs kaydedildi!"}
-                return render(request, "courses/create-course.html", context)
-            except Exception as e:
-                print(e)
-
-    return render(request, "courses/create-course.html",)
+        if form.is_valid():
+            kurs = Course(title=form.cleaned_data["title"], description=form.cleaned_data["title"], category_id=Category.objects.first().id)
+            kurs.save()
+            return redirect('index')
+    else:
+        form = CourseCreateForm()
+    return render(request, "courses/create-course.html", {"form": form})

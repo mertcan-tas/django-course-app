@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Kurs Oluştur</h1>
+    <form method="POST" action="{% url 'create-course' %}">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ form.title.id_for_label }}" class="form-label">Başlık</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+          <div class="invalid-feedback d-block">{{ form.title.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.description.id_for_label }}" class="form-label">Açıklama</label>
+        {{ form.description }}
+        {% if form.description.errors %}
+          <div class="invalid-feedback d-block">{{ form.description.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-success">Kaydet</button>
+    </form>
+  </div>
+{% endblock %}

@@ -3,7 +3,11 @@
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
+          {% if course.image %}
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
+          {% else %}
+            <img src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6557420216a456cfaef685c0_6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpg" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
+          {% endif %}
         </div>
         <div class="col-md-8">
           <div class="card-body">
