@@ -1,1 +1,1 @@
-from .course import CourseCreateForm
+from .course import CourseCreateForm, CourseEditForm

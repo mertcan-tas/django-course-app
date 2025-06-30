@@ -6,12 +6,12 @@
           {% if course.image %}
             <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
           {% else %}
-            <img src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6557420216a456cfaef685c0_6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpg" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
+            <img src="https://i.sstatic.net/y9DpT.jpg" alt="{{ course.title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;" />
           {% endif %}
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{ course.title|title }}</h5>
+            <a style="text-decoration: none;" href="{% url 'course-detail' course.slug %}"><h5 class="card-title">{{ course.title|title }}</h5></a>
             <p class="card-text">{{ course.description|truncatechars:65 }}</p>
             <p class="card-text">
               <small class="text-body-secondary">Yayınlanma tarihi: {{ course.updated_at|date:'d.m.Y' }}</small>
@@ -25,5 +25,5 @@
     </div>
   {% endif %}
 {% empty %}
-  <div class="alert alert-warning" role="alert">Kurs bulunamadı!</div>
+  <div class="alert alert-warning" role="alert">Course Not Found!</div>
 {% endfor %}
