@@ -1,8 +1,9 @@
 from django.urls import path
-from pages.views import index, hakkimizda, iletisim
+from courses.views import IndexView
+from pages.views import AboutView, ContactView
 
 urlpatterns = [
-    path("", index, name="index"),
-    path("hakkimizda/", hakkimizda, name="hakkimizda"),
-    path("iletisim/", iletisim, name="iletisim"),
+    path("", IndexView, name="index"),
+    path("about/", AboutView, name="about"),
+    path("contact/", ContactView, name="contact"),
 ]

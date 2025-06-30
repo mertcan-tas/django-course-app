@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+
+from courses.forms import CourseCreateForm, CourseEditForm
 from courses.models import Course, Category
 from django.db.models import Q
-from courses.forms import CourseCreateForm, CourseEditForm
 
-def index(request):
+def IndexView(request):
     query = request.GET.get("search", "").strip()
     
     if query:
@@ -21,13 +23,13 @@ def index(request):
         "query": query,
     })
 
-def details(request, slug):
+def CourseDetailView(request, slug):
     course = get_object_or_404(Course, slug=slug)
     return render(request, "courses/details.html", {
         "course": course
     })
     
-def getCoursesByCategory(request, slug):
+def CourseCategoryView(request, slug):
     category = get_object_or_404(Category, slug=slug)
     course_list = category.courses.filter(is_active=True)  
     
@@ -39,8 +41,9 @@ def getCoursesByCategory(request, slug):
         "page_obj": page_obj,
         "category": category,
     })
-    
-def courseList(request):
+
+@login_required
+def CourseListView(request):
     query = request.GET.get("search", "").strip()
     
     if query:
@@ -58,7 +61,8 @@ def courseList(request):
     })
 
 
-def create_course(request):
+@login_required
+def CreateCourseView(request):
     if request.method == "POST":
         form = CourseCreateForm(request.POST, request.FILES)
         
@@ -69,8 +73,8 @@ def create_course(request):
         form = CourseCreateForm()
     return render(request, "courses/create-course.html", {"form": form})
 
-
-def edit_course(request, slug):
+@login_required
+def EditCourseView(request, slug):
     course = get_object_or_404(Course, slug=slug)
     if request.method == "POST":
         form = CourseEditForm(request.POST, request.FILES, instance=course)
@@ -82,7 +86,8 @@ def edit_course(request, slug):
         form = CourseEditForm(instance=course)
     return render(request, "courses/edit-course.html", {"form": form, "slug": slug})
 
-def delete_course(request, slug):
+@login_required
+def DeleteCourseView(request, slug):
     course = get_object_or_404(Course, slug=slug)
     if request.method == "POST":
         course.delete()

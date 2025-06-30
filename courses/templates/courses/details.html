@@ -1,7 +1,43 @@
-{% extends 'layouts/base.html' %} {% block content %}
+{% extends 'layouts/base.html' %}
+{% load category_tags %}
+{% block content %}
   <div class="container mt-4">
     <div class="row">
-      <div class="col-12"></div>
+      <div class="col-lg-8">
+        <article>
+          <h1 class="mb-3">{{ course.title }}</h1>
+
+          <div class="text-muted mb-3">
+            <small>Author: Mertcan Taş | 30 Haziran 2025</small>
+          </div>
+
+          <img src="https://i.sstatic.net/y9DpT.jpg" alt="{{ course.title }}" class="img-fluid mb-4" style="height: 450px; width: 100%; object-fit: cover;" />
+
+          <div class="content mb-5">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae sem a justo fermentum tincidunt.</p>
+            <p>Nullam sit amet purus quis sapien tincidunt aliquam. Curabitur sit amet leo vitae nisi bibendum gravida.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-lg-4">
+        {% show_categories %}
+
+        <div class="card mt-4">
+          <div class="card-header">Benzer Yazılar</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a href="#">Yeni Başlayanlar için HTML</a>
+            </li>
+            <li class="list-group-item">
+              <a href="#">CSS Grid Rehberi</a>
+            </li>
+            <li class="list-group-item">
+              <a href="#">JavaScript ile Dinamik Formlar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

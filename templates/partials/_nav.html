@@ -1,44 +1,53 @@
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Course App</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/kurslar">Kurslar</a>
-          </li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Course App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kurslar</a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Courses</a>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="{% url 'course-list' %}">Kurslar</a>
+                <a class="dropdown-item" href="{% url 'course-list' %}">Courses</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'create-course' %}">Kurs Ekle</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Kurslarım</a>
+                <a class="dropdown-item" href="{% url 'create-course' %}">Add Course</a>
               </li>
             </ul>
           </li>
+        {% endif %}
 
-          <li class="nav-item">
-            <a class="nav-link" href="/iletisim">İletişim</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/hakkimizda">Hakkımızda</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav flex-row">
+          {% if user.is_authenticated %}
+            <li class="nav-item me-2">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item me-2">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item me-2">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+          {% endif %}
         </ul>
+
         <form class="d-flex" method="get" action="{% url 'index' %}">
           <input class="form-control me-2" type="search" placeholder="Search" name="search" value="{{ query }}" aria-label="Search" />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>
     </div>
-  </nav>
-</body>
+  </div>
+</nav>

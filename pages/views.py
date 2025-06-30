@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-def index(request):
-    return render(request, "pages/index.html")
     
-def hakkimizda(request):
+def AboutView(request):
     return render(request, "pages/about.html")
 
-def iletisim(request):
+def ContactView(request):
     return render(request, "pages/contact.html")
