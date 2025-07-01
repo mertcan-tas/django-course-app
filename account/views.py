@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.contrib.auth.models import User
 
@@ -16,8 +17,8 @@ def LoginView(request):
             login(request, user)
             return redirect("index")
         else:
-            context = {"error": "Kullanıcı adı veya parola hatalı."}
-            return render(request, "account/login.html", context)
+            messages.add_message(request, messages.INFO, "Username or password is incorrect.")
+            return render(request, "account/login.html")
     else:
         return render(request, "account/login.html")
 
@@ -30,7 +31,7 @@ def RegisterView(request):
 
         if password1 != password2:
             return render(request, "account/register.html", {"error": "Passwords do not match"})
-
+        
         if User.objects.filter(username=username).exists():
             return render(request, "account/register.html", {"error": "Username is already taken"})
 
