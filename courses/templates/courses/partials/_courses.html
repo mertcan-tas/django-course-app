@@ -12,7 +12,6 @@
         <div class="col-md-8">
           <div class="card-body">
             <a style="text-decoration: none;" href="{% url 'course-detail' course.slug %}"><h5 class="card-title">{{ course.title|title }}</h5></a>
-            <p class="card-text">{{ course.description|truncatechars:65 }}</p>
             <p class="card-text">
               <small class="text-body-secondary">Yayınlanma tarihi: {{ course.updated_at|date:'d.m.Y' }}</small>
             </p>

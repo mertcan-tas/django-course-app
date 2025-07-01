@@ -37,6 +37,7 @@ class CourseEditForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ("title", "description", "image", "category")
+        readonly_fields = ('slug',)
         labels = {
             "title": "Başlık",
             "description": "İçerik"

@@ -23,7 +23,7 @@
                 {{ field.as_widget|safe|add_invalid_class }}
                 <div class="invalid-feedback">{{ field.errors.0 }}</div>
               {% else %}
-                {{ field.as_widget|safe|add_form_control }}
+                {{ field }}
               {% endif %}
             </div>
           {% endfor %}

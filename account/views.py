@@ -2,9 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from account.forms import LoginUserForm
-
-from django.contrib.auth.models import User
+from account.forms import LoginUserForm, RegisterUserForm, UserPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 def LoginView(request):
     if request.user.is_authenticated:
@@ -21,29 +20,36 @@ def LoginView(request):
                 login(request, user)
                 return redirect("index")
             else:
-                form.username.add_error(None, "username or password is incorrect.")
+                form.add_error(None, "username or password is incorrect.")
     return render(request, "account/login.html", {"form": form})
 
 def RegisterView(request):
+    if request.user.is_authenticated:
+        return redirect("index")
+        
     if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterUserForm()
+    return render(request, "account/register.html", {"form": form})
 
-        if password1 != password2:
-            return render(request, "account/register.html", {"error": "Passwords do not match"})
-
-        if User.objects.filter(username=username).exists():
-            return render(request, "account/register.html", {"error": "Username is already taken"})
-
-        if User.objects.filter(email=email).exists():
-            return render(request, "account/register.html", {"error": "Email is already registered"})
-
-        User.objects.create_user(username=username, email=email, password=password1)
-        return redirect('login')
-
-    return render(request, "account/register.html")
+@login_required
+def PasswordChangeView(request):
+    if request.method == "POST":
+        form = UserPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Your password has been changed successfully!")
+            return redirect("index")
+        else:
+            messages.error(request, "Password change failed. Please correct the errors.")
+    else:
+        form = UserPasswordChangeForm(request.user)
+    return render(request, "account/change-password.html", {"form": form})
 
 @login_required
 def LogoutView(request):

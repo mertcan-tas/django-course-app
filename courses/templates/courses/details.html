@@ -6,17 +6,11 @@
       <div class="col-lg-8">
         <article>
           <h1 class="mb-3">{{ course.title }}</h1>
-
           <div class="text-muted mb-3">
             <small>Author: Mertcan Taş | 30 Haziran 2025</small>
           </div>
-
           <img src="https://i.sstatic.net/y9DpT.jpg" alt="{{ course.title }}" class="img-fluid mb-4" style="height: 450px; width: 100%; object-fit: cover;" />
-
-          <div class="content mb-5">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae sem a justo fermentum tincidunt.</p>
-            <p>Nullam sit amet purus quis sapien tincidunt aliquam. Curabitur sit amet leo vitae nisi bibendum gravida.</p>
-          </div>
+          <div class="content mb-5">{{ course.description }}</div>
         </article>
       </div>
 
