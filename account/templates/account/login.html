@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-
+{% load form_filters %}
 {% block page_title %}
   Login
 {% endblock %}
@@ -22,14 +22,17 @@
           {% endif %}
 
           {% csrf_token %}
-          <div class="mb-3">
-            <label for="username" name="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
-          </div>
+
+          {% for field in form %}
+            <div class="mb-3 {% if field.errors %}invalid{% endif %}">
+              {% if field.errors %}
+                <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+              {% endif %}
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field.as_widget|safe|add_form_control }}
+            </div>
+          {% endfor %}
+
           <div class="d-grid">
             <button type="submit" class="btn btn-primary">Sign in</button>
           </div>
